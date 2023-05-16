@@ -9,7 +9,7 @@ export default async function handler(req, res) {
     return res.status(401).json({ ok: false });
   }
 
-  const { content } = req.body;
+  const { content} = req.body;
 
   if (!content?.length) {
     return res.status(400).json({ ok: false });
@@ -19,8 +19,8 @@ export default async function handler(req, res) {
     data: {
       author: {
         connect: {
-            id: session.user.id
-        }
+          id: session.user.id,
+        },
       },
       content,
     },

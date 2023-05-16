@@ -3,34 +3,50 @@ import styles from "../styles/General.module.css";
 import Navbar from "../components/navbar";
 import { useSession } from "next-auth/react";
 import SingIn from "../components/Sing-in";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Feed from "../components/feed";
 
 export default function Home() {
   const { data: session } = useSession();
 
   const [postContent, setPostContent] = useState("")
+  const [posts, setPosts] = useState(null);
 
-  const handleCreatePost = () => {
-    setPostContent("")
-    fetch("/api/posts/create", {
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  const fetchPosts = async () => {
+    const res = await fetch("/api/posts/list", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    setPosts(data);
+  };
+
+  const handleCreatePost = async () => {
+    await fetch("/api/posts/create", {
       method: "POST",
       body: JSON.stringify({
-        content: postContent
+        content: postContent,
       }),
       headers: {
         "Content-type": "application/json"
       }
     })
+    fetchPosts()
+    setPostContent("")
   }
 
   if (session) {
     return (
       <div className={styles.box}>
         <Navbar />
-        <h2>Feed</h2>
         <div className={styles.postarea}>
-          <TextField
+                    <TextField
             id="outlined-multiline-flexible"
             label="just put it into words"
             multiline
@@ -39,11 +55,11 @@ export default function Home() {
             style={{ width: "500px", marginRight: "20px"}}
             onChange={(e) => setPostContent(e.target.value)}
           />
-          <Button onClick={handleCreatePost} variant="contained" color="success">
+          <Button onClick={handleCreatePost} variant="contained" >
             post
           </Button>
         </div>
-        <Feed/>
+        <Feed posts={posts}/>
       </div>
     );
   }

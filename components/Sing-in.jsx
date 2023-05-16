@@ -9,7 +9,7 @@ export default function SingIn(singin) {
         <div className={styles.box}>
             <Navbar/>
             <h2>Discover a new world of possibilities by joining our platform today</h2> <br/>
-            <Button onClick={() => signIn()} variant="contained" color="success">
+            <Button onClick={() => signIn()} variant="contained" >
             SingIn
             </Button>
         </div>

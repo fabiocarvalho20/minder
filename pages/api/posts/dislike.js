@@ -21,15 +21,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, message: "Post not found" });
   }
 
-  if (post.authorId !== session.user.id) {
-    return res
-      .status(403)
-      .json({ ok: false, message: "You can't delete other users' posts" });
-  }
-
-  await prisma.post.delete({
+  await prisma.like.delete({
     where: {
-      id: postId,
+      userId_postId: {
+        userId: session.user.id,
+        postId: postId,
+      },
     },
   });
 

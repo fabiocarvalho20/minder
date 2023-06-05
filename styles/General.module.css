@@ -5,13 +5,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    overflow: -moz-hidden-unscrollable;
   }
 
   .navbar{
-    width: 175vh;
+    width: 90vw;
+    z-index: 10;
+    padding: 10px;
+    background-color: #fff;
     display: flex;
+    position: fixed;
     justify-content: space-between;
-    margin: 10px;
   }
 
   .profileimg {
@@ -21,6 +25,7 @@
   .postarea {
     display: flex;
     align-items: center;
+    margin-top: 10vh;
   }
 
   .feed {

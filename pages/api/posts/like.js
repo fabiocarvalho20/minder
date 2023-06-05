@@ -21,15 +21,25 @@ export default async function handler(req, res) {
     return res.status(400).json({ ok: false, message: "Post not found" });
   }
 
-  if (post.authorId !== session.user.id) {
+  const like = await prisma.like.findUnique({
+    where: {
+      userId_postId: {
+        userId: session.user.id,
+        postId: postId,
+      },
+    },
+  });
+
+  if (like) {
     return res
-      .status(403)
-      .json({ ok: false, message: "You can't delete other users' posts" });
+      .status(400)
+      .json({ ok: false, message: "You have already liked this post" });
   }
 
-  await prisma.post.delete({
-    where: {
-      id: postId,
+  await prisma.like.create({
+    data: {
+      userId: session.user.id,
+      postId: postId,
     },
   });
 

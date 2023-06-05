@@ -6,53 +6,87 @@ import Typography from "@mui/material/Typography";
 import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/General.module.css";
-import { Button } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 
-export default function MyPostCard(props) {
+export default function MyPostCard({ post, refreshPosts }) {
+  const handleDeletePost = async () => {
+    await fetch("/api/posts/delete", {
+      method: "POST",
+      body: JSON.stringify({
+        postId: post.id,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    post.id;
+    fetchPosts();
+  };
 
-    const handleDeletePost = async () => {
-        await fetch("/api/posts/delete", {
-          method: "POST",
-          body: JSON.stringify({
-            postId: props.id,
-          }),
-          headers: {
-            "Content-type": "application/json"
-          }
-        })
-        props.id
-      }
-    
+  const fetchPosts = async () => {
+    const res = await fetch("/api/posts/list", {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+    const data = await res.json();
+    refreshPosts(data);
+  };
 
   return (
-    <Card sx={{ maxWidth: 600, marginBottom: 2.5, backgroundColor: "rgb(29, 155, 240)", borderRadius: 5}}>
+    <Card
+      sx={{
+        minWidth: 600,
+        maxWidth: 600,
+        marginBottom: 2.5,
+        backgroundColor: "rgb(29, 155, 240)",
+        borderRadius: 5,
+      }}
+    >
       <CardContent>
         <div className={styles.cardbar}>
-          <div style={{ display: "flex", alignItems: "center"}}> 
-          <Link href="/profile" style={{marginRight: "10px"}}>
-            <Image
-              className={styles.profileimg}
-              width={40}
-              height={40}
-              alt="Profile picture"
-              src={props.image}
-            />
-          </Link>
-            {props.name}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <Link href="/profile" style={{ marginRight: "10px" }}>
+              <Image
+                className={styles.profileimg}
+                width={40}
+                height={40}
+                alt="Profile picture"
+                src={post.author.image}
+              />
+            </Link>
+            {post.name}
           </div>
-          <div style={{ display: "flex", alignItems: "center"}}> 
-          <DeleteIcon onClick={handleDeletePost} style={{marginRight: "10px"}}/>
-          {format(new Date(props.date), "HH:mm - dd/LLL/yyyy")}
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <DeleteIcon
+              onClick={handleDeletePost}
+              style={{ marginRight: "10px" }}
+            />
+            {format(new Date(post.createdAt), "HH:mm - dd/LLL/yyyy")}
           </div>
         </div>
         <Typography gutterBottom variant="h5" component="div">
-          {props.title}
+          {post.title}
         </Typography>
         <Typography variant="body2" color="whitesmoke">
-          {props.content}
+          {post.content}
         </Typography>
       </CardContent>
+      <div className={styles.cardbar}>
+        <div></div>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              color: "white",
+              marginRight: "15px",
+              marginBottom: "15px",
+            }}
+          >
+            likes: {post.likes.length}
+          </div>
+        </div>
+      </div>
     </Card>
   );
 }

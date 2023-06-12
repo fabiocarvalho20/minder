@@ -1,9 +1,9 @@
 import { Button, TextField } from "@mui/material";
 import styles from "../styles/General.module.css";
 import { useSession } from "next-auth/react";
-import SingIn from "../components/Sing-in";
+import SingIn from "../components/SingIn";
 import { useEffect, useState } from "react";
-import PageWrapper from "../components/PageWrapper";
+import PageWrapper from "../components/pageWrapper";
 import PostCard from "../components/postCard";
 
 export default function Home() {

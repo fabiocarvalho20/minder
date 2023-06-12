@@ -44,6 +44,7 @@ model User {
   sessions      Session[]
   posts         Post[]
   likes         Like[]
+  Comment       Comment[]
 }
 
 model VerificationToken {
@@ -55,20 +56,31 @@ model VerificationToken {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
   content   String
-  author    User     @relation(fields: [authorId], references: [id])
+  author    User      @relation(fields: [authorId], references: [id])
   authorId  String
   likes     Like[]
+  Comment   Comment[]
 }
 
 model Like {
   id     String @id @default(cuid())
   userId String
-  postId Int
+  postId String
   Post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, postId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  userId    String
+  postId    String
+  Post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

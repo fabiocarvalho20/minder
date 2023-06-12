@@ -41,70 +41,77 @@ export default function PostCard({ post, refreshPosts }) {
   };
 
   return (
-    <Card
-      sx={{
-        minWidth: 600,
-        maxWidth: 600,
-        marginBottom: 2.5,
-        backgroundColor: "rgb(29, 155, 240)",
-        borderRadius: 5,
-      }}
-    >
-      <CardContent>
+    <Link href={`/post/${post.id}`}>
+      <Card
+        sx={{
+          minWidth: 600,
+          maxWidth: 600,
+          marginBottom: 2.5,
+          backgroundColor: "rgb(29, 155, 240)",
+          borderRadius: 5,
+        }}
+      >
+        <CardContent>
+          <div className={styles.cardbar}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Link href={`/profile/${post.author.id}`}>
+                <Image
+                  style={{ marginRight: "10px" }}
+                  className={styles.profileimg}
+                  width={40}
+                  height={40}
+                  alt="Profile picture"
+                  src={post.author.image}
+                />
+              </Link>
+              {post.author.name}
+            </div>
+            {format(new Date(post.createdAt), "HH:mm - dd/LLL/yyyy")}
+          </div>
+          <Typography sx={{ marginTop: 1 }} variant="body2" color="whitesmoke">
+            {post.content}
+          </Typography>
+        </CardContent>
         <div className={styles.cardbar}>
+          <div></div>
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Image
-              style={{ marginRight: "10px" }}
-              className={styles.profileimg}
-              width={40}
-              height={40}
-              alt="Profile picture"
-              src={post.author.image}
-            />
-
-            {post.author.name}
-          </div>
-          {format(new Date(post.createdAt), "HH:mm - dd/LLL/yyyy")}
-        </div>
-        <Typography sx={{ marginTop: 1 }} variant="body2" color="whitesmoke">
-          {post.content}
-        </Typography>
-      </CardContent>
-      <div className={styles.cardbar}>
-        <div></div>
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <div
-            style={{
-              color: "white",
-              marginRight: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            {post.likes.length}
-          </div>
-          {liked ? (
-            <ThumbUpIcon
-              onClick={handleDislike}
-              sx={{
-                color: "blue",
-                marginRight: 2,
-                marginBottom: 2,
-                cursor: "pointer",
-              }}
-            />
-          ) : (
-            <ThumbUpIcon
-              onClick={handleLike}
-              sx={{
+            <div
+              style={{
                 color: "white",
-                marginRight: 2,
-                marginBottom: 2,
-                cursor: "pointer",
+                marginRight: "10px",
+                marginBottom: "10px",
               }}
-            />
-          )}
+            >
+              {post.likes.length}
+            </div>
+            {liked ? (
+              <Link href={"/"}>
+                <ThumbUpIcon
+                  onClick={handleDislike}
+                  sx={{
+                    color: "blue",
+                    marginRight: 2,
+                    marginBottom: 2,
+                    cursor: "pointer",
+                  }}
+                />
+              </Link>
+            ) : (
+              <Link href={"/"}>
+                <ThumbUpIcon
+                  onClick={handleLike}
+                  sx={{
+                    color: "white",
+                    marginRight: 2,
+                    marginBottom: 2,
+                    cursor: "pointer",
+                  }}
+                />
+              </Link>
+            )}
+          </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </Link>
   );
 }

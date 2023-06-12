@@ -3,7 +3,7 @@ import { Button, Link, TextField } from "@mui/material";
 import MyPosts from "../components/myposts";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import PageWrapper from "../components/PageWrapper";
+import PageWrapper from "../components/pageWrapper";
 
 export default function Profile() {
   const [posts, setPosts] = useState(null);

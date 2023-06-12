@@ -1,5 +1,5 @@
 import React from "react";
-import SingIn from "./Sing-in";
+import SingIn from "./SingIn";
 import Navbar from "./navbar";
 import styles from "../styles/General.module.css";
 import { useSession } from "next-auth/react";

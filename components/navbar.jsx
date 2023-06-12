@@ -9,21 +9,16 @@ export default function Navbar() {
     return (
       <div className={styles.navbar}>
         <Link href="/">
-        <Image
-          width={150}
-          height={50}
-          alt="logo"
-          src="/logo.png"
-        />
+          <Image width={150} height={50} alt="logo" src="/logo.png" />
         </Link>
-        <Link href="/profile">
-        <Image
-          className={styles.profileimg}
-          width={40}
-          height={40}
-          alt="Profile picture"
-          src={session.user.image}
-        />
+        <Link href="/myprofile">
+          <Image
+            className={styles.profileimg}
+            width={40}
+            height={40}
+            alt="Profile picture"
+            src={session.user.image}
+          />
         </Link>
       </div>
     );

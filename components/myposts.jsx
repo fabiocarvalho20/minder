@@ -1,4 +1,4 @@
-import MyPostCard from "./MyPostCard";
+import MyPostCard from "./myPostCard";
 import styles from "../styles/General.module.css";
 import { useSession } from "next-auth/react";
 
